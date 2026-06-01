@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hi-lo-wells"
+version = "0.1.0"
+description = "Hi-Lo-Wells"
+requires-python = ">=3.12"
+dependencies = ["flask>=3.0", "pandas>=2.0", "numpy>=1.24"]
+
+[project.scripts]
+hi-lo-wells = "hi_lo_wells.app:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hi_lo_wells*"]
+
+[tool.setuptools.package-data]
+hi_lo_wells = ["templates/*", "static/*"]

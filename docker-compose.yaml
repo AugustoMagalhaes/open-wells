@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./hi_lo_wells:/app/hi_lo_wells
+    environment:
+      HI_LO_WELLS_NO_BROWSER: "1"
