@@ -523,3 +523,24 @@ tbody tr.row-selected {
 [data-theme="dark"] tbody tr.row-selected {
     background: rgba(91, 156, 246, .1);
 }
+
+.copy-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: color .15s, background-color .15s;
+}
+
+.copy-btn:hover {
+    color: var(--accent);
+    background: var(--surface2);
+}
+
+.copy-btn.copied {
+    color: var(--green);
+}
