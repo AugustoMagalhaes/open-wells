@@ -146,6 +146,42 @@ function clearTable(refill = true) {
     }
 }
 
+function detectDelimiter(line) {
+    if (line.includes("\t")) return "\t";
+    if (line.includes(";")) return ";";
+    return ",";
+}
+
+function parseClipboard(text) {
+    const lines = text.trim().split(/\r?\n/);
+    const delim = detectDelimiter(lines[0]);
+    const parsed = lines.map(l => l.split(delim));
+    const firstUpper = parsed[0].map(v => v.trim().toUpperCase());
+    const fieldOrder = ["WELL", "X", "Y", "Z", "WEI"];
+    const hasHeader = fieldOrder.some(c => firstUpper.includes(c));
+    return {
+        colMap: hasHeader ? firstUpper : null,
+        dataRows: parsed.slice(hasHeader ? 1 : 0),
+    };
+}
+
+function fillRow(tr, cells, colMap, startCol) {
+    const fieldOrder = ["WELL", "X", "Y", "Z", "WEI"];
+    if (colMap) {
+        colMap.forEach((col, ci) => {
+            const fieldIdx = fieldOrder.indexOf(col);
+            if (fieldIdx === -1) return;
+            const inp = tr.cells[fieldIdx + 2]?.querySelector("input[type='text']");
+            if (inp) { inp.value = cells[ci]?.trim() ?? ""; inp.dispatchEvent(new Event("input")); }
+        });
+    } else {
+        cells.forEach((val, ci) => {
+            const inp = tr.cells[startCol + ci]?.querySelector("input[type='text']");
+            if (inp) { inp.value = val.trim(); inp.dispatchEvent(new Event("input")); }
+        });
+    }
+}
+
 document.addEventListener("paste", e => {
     const active = document.activeElement;
     if (!active?.name) return;
@@ -160,35 +196,15 @@ document.addEventListener("paste", e => {
         return;
     }
 
-    const delim = lines[0].includes("\t") ? "\t" : lines[0].includes(";") ? ";" : ",";
-    const parsed = lines.map(l => l.split(delim));
-    const firstUpper = parsed[0].map(v => v.trim().toUpperCase());
-    const fieldOrder = ["WELL", "X", "Y", "Z", "WEI"];
-    const hasHeader = fieldOrder.some(c => firstUpper.includes(c));
-    const colMap = hasHeader ? firstUpper : null;
-    const dataRows = parsed.slice(hasHeader ? 1 : 0);
+    clearTable(false);
 
-    const td = active.parentElement;
-    const tr = td.parentElement;
-    const startCol = [...tr.cells].indexOf(td);
-    let curTr = tr;
+    const { colMap, dataRows } = parseClipboard(text);
+    const tbody = document.getElementById("tbody");
 
     dataRows.forEach(cells => {
-        if (!curTr) { addRow(); curTr = document.getElementById("tbody").lastElementChild; }
-        if (colMap) {
-            colMap.forEach((col, ci) => {
-                const fieldIdx = fieldOrder.indexOf(col);
-                if (fieldIdx === -1) return;
-                const inp = curTr.cells[fieldIdx + 2]?.querySelector("input[type='text']");
-                if (inp) { inp.value = cells[ci]?.trim() ?? ""; inp.dispatchEvent(new Event("input")); }
-            });
-        } else {
-            cells.forEach((val, ci) => {
-                const inp = curTr.cells[startCol + ci]?.querySelector("input[type='text']");
-                if (inp) { inp.value = val.trim(); inp.dispatchEvent(new Event("input")); }
-            });
-        }
-        curTr = curTr.nextElementSibling;
+        addRow();
+        const curTr = tbody.lastElementChild;
+        fillRow(curTr, cells, colMap, 2);
     });
 
     updateRowCount();
@@ -232,3 +248,20 @@ function downloadResult() {
             URL.revokeObjectURL(url);
         });
 }
+
+document.addEventListener("keydown", e => {
+    if (e.ctrlKey && e.key === "a") {
+        const active = document.activeElement;
+        if (!active?.name) return;
+        e.preventDefault();
+        const tbody = document.getElementById("tbody");
+        [...tbody.rows].forEach(tr => {
+            const cb = tr.querySelector('input[type="checkbox"]');
+            if (!cb) return;
+            cb.checked = true;
+            tr.classList.add("row-selected");
+        });
+        const master = document.getElementById("select-all");
+        if (master) { master.checked = true; master.indeterminate = false; }
+    }
+});
