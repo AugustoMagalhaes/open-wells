@@ -1,9 +1,29 @@
 const COLS = ["WELL", "X", "Y", "Z", "WEI"];
 
 document.addEventListener("DOMContentLoaded", () => {
-    const saved = localStorage.getItem("theme") || "light";
-    document.documentElement.dataset.theme = saved;
-    updateThemeBtn(saved);
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = savedTheme;
+    updateThemeBtn(savedTheme);
+
+    const decimal = localStorage.getItem("decimal") || ",";
+    const thousands = localStorage.getItem("thousands") || ".";
+    const csvsep = localStorage.getItem("csvsep") || ";";
+
+    document.getElementById("decimal").value = decimal;
+    document.getElementById("thousands").value = thousands;
+    document.getElementById("csvsep").value = csvsep;
+});
+
+document.getElementById("decimal").addEventListener("change", e => {
+    localStorage.setItem("decimal", e.target.value);
+});
+
+document.getElementById("thousands").addEventListener("change", e => {
+    localStorage.setItem("thousands", e.target.value);
+});
+
+document.getElementById("csvsep").addEventListener("change", e => {
+    localStorage.setItem("csvsep", e.target.value);
 });
 
 function toggleTheme() {
