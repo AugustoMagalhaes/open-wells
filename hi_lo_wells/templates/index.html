@@ -78,6 +78,12 @@
 
             <hr class="divider" />
 
+            <a href="{{ url_for('static', filename='sample_input.csv') }}" download="sample_input.csv"
+                class="btn btn-outline-accent">
+                ⬇ Download sample case
+            </a>
+            <hr class="divider" />
+
             <div class="sb-section">
                 <div class="sb-label">Actions</div>
                 <button class="btn btn-primary" hx-post="/calculate" hx-include="#main-form" hx-target="#result-area"
@@ -97,10 +103,6 @@
                     ⬇ Download CSV
                 </button>
             </div>
-            <a href="{{ url_for('static', filename='sample_input.csv') }}" download="sample_input.csv"
-                class="btn btn-ghost">
-                ⬇ Download sample case
-            </a>
 
             <div id="spinner" class="spinner htmx-indicator"></div>
 

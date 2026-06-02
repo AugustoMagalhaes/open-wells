@@ -553,3 +553,14 @@ tbody tr.row-selected {
 .copy-btn.copied {
     color: var(--green);
 }
+
+.btn-outline-accent {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+
+.btn-outline-accent:hover {
+    background: var(--accent);
+    color: #fff;
+}
