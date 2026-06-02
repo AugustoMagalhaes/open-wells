@@ -322,6 +322,15 @@ td.rn {
     vertical-align: middle;
 }
 
+tbody tr:nth-child(odd) {
+    background: var(--surface);
+}
+
+tbody tr:nth-child(even) {
+    background: var(--surface2);
+}
+
+
 td.td-error {
     color: var(--red);
     padding: 8px 12px;
