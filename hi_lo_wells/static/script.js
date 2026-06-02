@@ -135,13 +135,15 @@ function syncSelectAll() {
     master.indeterminate = !master.checked && all.some(cb => cb.checked);
 }
 
-function clearTable() {
+function clearTable(refill = true) {
     document.getElementById("tbody").innerHTML = "";
     document.getElementById("result-area").innerHTML = "";
-    document.getElementById("dl-form").style.display = "none";
+    document.getElementById("dl-btn").style.display = "none";
     const master = document.getElementById("select-all");
     if (master) { master.checked = false; master.indeterminate = false; }
-    for (let i = 0; i < 6; i++) addRow();
+    if (refill) {
+        addRow();
+    }
 }
 
 document.addEventListener("paste", e => {
