@@ -103,10 +103,15 @@ def download():
     )
 
 
-def _find_free_port() -> int:
-    with socket.socket() as s:
-        s.bind(("", 0))
-        return s.getsockname()[1]
+def _find_free_port(start: int = 5000) -> int:
+    port = start
+    while True:
+        with socket.socket() as s:
+            try:
+                s.bind(("", port))
+                return port
+            except OSError:
+                port += 1
 
 
 def main():
@@ -117,7 +122,7 @@ def main():
         threading.Timer(1.2, webbrowser.open, args=[url]).start()
 
     print(f"  hi-lo-wells  →  {url}")
-    app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)
+    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=False)
 
 
 if __name__ == "__main__":
