@@ -84,6 +84,7 @@ def main():
     view.setUrl(QUrl(f"http://127.0.0.1:{port}"))
     window.setCentralWidget(view)
     window.show()
+    window.showMaximized()
 
     sys.exit(qt_app.exec())
 
