@@ -1,16 +1,40 @@
 import json
 import sys
 import threading
+import webbrowser
 from pathlib import Path
 
 from PyQt6.QtCore import QUrl
-from PyQt6.QtWebEngineCore import QWebEngineDownloadRequest
+from PyQt6.QtWebEngineCore import QWebEngineDownloadRequest, QWebEnginePage
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMainWindow
 
 from hi_lo_wells.app import _find_free_port, app
 from hi_lo_wells.prefs import load as load_prefs
 from hi_lo_wells.prefs import save as save_prefs
+
+
+class WebPage(QWebEnginePage):
+    def __init__(self, profile, parent, main_window):
+        super().__init__(profile, parent)
+        self._main_window = main_window
+
+    def createWindow(self, win_type: QWebEnginePage.WebWindowType) -> "WebPage | None":
+        self._pending_page = WebPage(self.profile(), self.parent(), self._main_window)
+        self._pending_page.urlChanged.connect(self._open_external)
+        return self._pending_page
+
+    def _open_external(self, url: QUrl):
+        if "127.0.0.1" not in url.toString():
+            webbrowser.open(url.toString())
+            self._main_window.activateWindow()
+            self._main_window.raise_()
+            QApplication.processEvents()
+            view_page = self._main_window.centralWidget().page()
+            view_page.runJavaScript(
+                f"showToast('✓ Link {url.toString()} opened in browser')"
+            )
+        self._pending_page.deleteLater()
 
 
 def run_flask(port: int):
@@ -62,7 +86,6 @@ def handle_open_file(view: QWebEngineView, port: int):
 
 def main():
     port = _find_free_port()
-
     flask_thread = threading.Thread(target=run_flask, args=[port], daemon=True)
     flask_thread.start()
 
@@ -70,13 +93,12 @@ def main():
 
     window = QMainWindow()
     window.setWindowTitle("hi-lo-wells")
-    window.resize(1280, 800)
 
     view = QWebEngineView()
-    view.page().profile().downloadRequested.connect(
-        lambda dl: handle_download(dl, view)
-    )
+    page = WebPage(view.page().profile(), view, window)
+    view.setPage(page)
 
+    page.profile().downloadRequested.connect(lambda dl: handle_download(dl, view))
     view.page().urlChanged.connect(
         lambda: view.page().runJavaScript("window._qtApp = true;")
     )
