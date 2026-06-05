@@ -2,9 +2,11 @@ import os
 import socket
 from datetime import datetime
 
-from flask import Flask, Response, render_template, request, session
+from flask import Flask, Response, jsonify, render_template, request, session
 
 from hi_lo_wells.core import parse_csv_content, result_to_csv, rows_to_df, run_matching
+from hi_lo_wells.prefs import load as load_prefs
+from hi_lo_wells.prefs import save as save_prefs
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "hi-lo-wells-dev")
@@ -99,6 +101,41 @@ def download():
         mimetype="text/csv",
         headers={"Content-Disposition": f"attachment; filename=result_{timestamp}.csv"},
     )
+
+
+@app.route("/prefs")
+def get_prefs():
+    return jsonify(load_prefs())
+
+
+@app.route("/prefs", methods=["POST"])
+def set_prefs():
+    save_prefs(request.get_json())
+    return "", 204
+
+
+@app.route("/open-file-dialog")
+def open_file_dialog():
+    return jsonify({"dir": load_prefs().get("last_import_dir", str(Path.home()))})
+
+
+@app.route("/save-file-dialog")
+def save_file_dialog():
+    return jsonify(
+        {"dir": load_prefs().get("last_download_dir", str(Path.home() / "Downloads"))}
+    )
+
+
+@app.route("/read-file", methods=["POST"])
+def read_file():
+    from pathlib import Path
+
+    data = request.get_json()
+    try:
+        content = Path(data["path"]).read_text(encoding="utf-8", errors="replace")
+        return jsonify({"content": content})
+    except Exception as exc:
+        return jsonify({"error": str(exc)}), 400
 
 
 def _find_free_port(start: int = 5000) -> int:

@@ -1,36 +1,73 @@
 const COLS = ["WELL", "X", "Y", "Z", "WEI"];
 
-document.addEventListener("DOMContentLoaded", () => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.dataset.theme = savedTheme;
-    updateThemeBtn(savedTheme);
-
-    const decimal = localStorage.getItem("decimal") || ".";
-    const thousands = localStorage.getItem("thousands") || "";
-    const csvsep = localStorage.getItem("csvsep") || ",";
-
-    document.getElementById("decimal").value = decimal;
-    document.getElementById("thousands").value = thousands;
-    document.getElementById("csvsep").value = csvsep;
+document.addEventListener("DOMContentLoaded", async () => {
+    const prefs = await fetch("/prefs").then(r => r.json());
+    document.getElementById("decimal").value = prefs.decimal;
+    document.getElementById("thousands").value = prefs.thousands;
+    document.getElementById("csvsep").value = prefs.csvsep;
+    document.documentElement.dataset.theme = prefs.theme;
+    updateThemeBtn(prefs.theme);
 });
+
+function savePrefs(patch) {
+    fetch("/prefs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patch),
+    });
+}
 
 document.getElementById("decimal").addEventListener("change", e => {
-    localStorage.setItem("decimal", e.target.value);
+    savePrefs({ decimal: e.target.value });
 });
-
 document.getElementById("thousands").addEventListener("change", e => {
-    localStorage.setItem("thousands", e.target.value);
+    savePrefs({ thousands: e.target.value });
 });
-
 document.getElementById("csvsep").addEventListener("change", e => {
-    localStorage.setItem("csvsep", e.target.value);
+    savePrefs({ csvsep: e.target.value });
 });
 
 function toggleTheme() {
     const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = next;
-    localStorage.setItem("theme", next);
     updateThemeBtn(next);
+    savePrefs({ theme: next });
+}
+
+async function openImportDialog() {
+    const res = await fetch("/open-file-dialog").then(r => r.json());
+    view.page().runJavaScript(`handleOpenFile(${JSON.stringify(res.dir)})`);
+}
+
+async function triggerImportFromPath(path) {
+    const res = await fetch("/read-file", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path }),
+    }).then(r => r.json());
+
+    if (res.error) { showErr(res.error); return; }
+
+    const sep = document.getElementById("csvsep").value;
+    const thousands = document.getElementById("thousands").value;
+    const decimal = document.getElementById("decimal").value;
+
+    const blob = new Blob([res.content], { type: "text/csv" });
+    const file = new File([blob], path.split("/").pop(), { type: "text/csv" });
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("sep", sep);
+    formData.append("thousands", thousands);
+    formData.append("decimal", decimal);
+
+    document.getElementById("tbody").innerHTML = "";
+    updateRowCount();
+
+    htmx.ajax("POST", "/import-csv", {
+        target: "#tbody",
+        swap: "innerHTML",
+        values: formData,
+    });
 }
 
 function updateThemeBtn(theme) {
