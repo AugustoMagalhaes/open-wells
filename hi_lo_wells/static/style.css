@@ -29,7 +29,6 @@ td input,
         border-color .15s ease, filter .15s ease, transform .1s ease;
 }
 
-
 :root {
     --bg: #f5f7fa;
     --surface: var(--gray-100);
@@ -44,6 +43,15 @@ td input,
     --muted: #6b7599;
     --mono: 'Courier New', monospace;
     --gray-100: #f3f4f6;
+    --header-h: 48px;
+    --footer-h: 36px;
+    --content-padding: 16px;
+    --add-row-h: 32px;
+    --thead-h: 33px;
+    --rows-visible: 25.5;
+
+    --scroll-h: calc(100vh - var(--header-h) - var(--footer-h) - var(--content-padding) * 2 - var(--add-row-h) - 2px);
+    --row-height: calc((var(--scroll-h) - var(--thead-h)) / var(--rows-visible));
 }
 
 [data-theme="dark"] {
@@ -76,7 +84,7 @@ header {
     align-items: center;
     gap: 10px;
     padding: 0 20px;
-    height: 48px;
+    height: var(--header-h);
     background: var(--surface);
     border-bottom: 1px solid var(--border);
 }
@@ -108,7 +116,6 @@ header .sub {
     padding: 4px 10px;
     font-size: .8rem;
     cursor: pointer;
-    transition: filter .15s;
 }
 
 .theme-toggle:hover {
@@ -205,12 +212,12 @@ header .sub {
 
 .btn-primary {
     background: var(--accent);
-    color: var(--grey-100);
+    color: var(--gray-100);
 }
 
 .btn-green {
     background: var(--green);
-    color: var(--grey-100);
+    color: var(--gray-100);
 }
 
 .btn-ghost {
@@ -219,8 +226,34 @@ header .sub {
     color: var(--text);
 }
 
+.btn-danger {
+    background: var(--red);
+    color: var(--gray-100);
+}
+
+.btn-inverted {
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+}
+
+.btn-inverted:hover {
+    filter: brightness(.9);
+}
+
 [data-theme="dark"] .btn:hover {
     filter: brightness(1.12);
+}
+
+.btn-outline-accent {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+
+.btn-outline-accent:hover {
+    background: var(--accent);
+    color: var(--gray-100);
 }
 
 #import-csv {
@@ -268,12 +301,11 @@ header .sub {
     grid-template-columns: 1fr 340px;
     grid-template-rows: 1fr;
     overflow: hidden;
-    padding: 16px;
+    padding: var(--content-padding);
     gap: 12px;
 }
 
 .table-card {
-    flex: 1;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 7px;
@@ -284,8 +316,9 @@ header .sub {
 }
 
 .table-scroll {
-    flex: 1;
     overflow: auto;
+    min-height: var(--scroll-h);
+    max-height: var(--scroll-h);
 }
 
 table {
@@ -310,6 +343,7 @@ thead th {
     border-bottom: 1px solid var(--border2);
     white-space: nowrap;
     user-select: none;
+    height: var(--thead-h);
 }
 
 thead th:first-child {
@@ -318,7 +352,20 @@ thead th:first-child {
 }
 
 tbody tr {
+    height: var(--row-height);
     transition: background .08s;
+}
+
+tbody tr:nth-child(odd) {
+    background: var(--surface);
+}
+
+tbody tr:nth-child(even) {
+    background: rgba(0, 0, 0, .025);
+}
+
+[data-theme="dark"] tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, .02);
 }
 
 tbody tr:hover {
@@ -344,15 +391,6 @@ td.rn {
     vertical-align: middle;
 }
 
-tbody tr:nth-child(odd) {
-    background: var(--surface);
-}
-
-tbody tr:nth-child(even) {
-    background: var(--surface2);
-}
-
-
 td.td-error {
     color: var(--red);
     padding: 8px 12px;
@@ -365,10 +403,11 @@ td input {
     background: transparent;
     border: none;
     color: var(--text);
-    padding: 7px 10px;
     font-family: var(--mono);
     font-size: .82rem;
     outline: none;
+    height: 100%;
+    padding: 5px 10px;
 }
 
 td input:focus {
@@ -387,6 +426,30 @@ td input.well-i {
     color: var(--orange);
 }
 
+thead th.th-check {
+    width: 32px;
+    text-align: center;
+}
+
+td.td-check {
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 8px;
+}
+
+td.td-check input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: var(--accent);
+}
+
+tbody tr.row-selected {
+    background: rgba(59, 125, 232, .08);
+}
+
+[data-theme="dark"] tbody tr.row-selected {
+    background: rgba(91, 156, 246, .1);
+}
+
 .add-row-btn {
     width: 100%;
     background: none;
@@ -398,6 +461,8 @@ td input.well-i {
     text-align: left;
     cursor: pointer;
     transition: color .15s;
+    height: var(--add-row-h);
+    flex-shrink: 0;
 }
 
 .add-row-btn:hover {
@@ -418,6 +483,13 @@ td input.well-i {
 
 .error-box.on {
     display: block;
+}
+
+.result-area-wrap {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
 }
 
 .result-card {
@@ -478,13 +550,6 @@ td input.well-i {
     min-width: 0;
 }
 
-.result-area-wrap {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-height: 0;
-}
-
 .result-pair .rp-prod {
     color: var(--accent);
     font-weight: 700;
@@ -512,49 +577,6 @@ td input.well-i {
     text-align: right;
 }
 
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--border2);
-    border-radius: 3px;
-}
-
-.btn-danger {
-    background: var(--red);
-    color: var(--grey-100);
-}
-
-thead th.th-check {
-    width: 32px;
-    text-align: center;
-}
-
-td.td-check {
-    text-align: center;
-    vertical-align: middle;
-    padding: 0 8px;
-}
-
-td.td-check input[type="checkbox"] {
-    cursor: pointer;
-    accent-color: var(--accent);
-}
-
-tbody tr.row-selected {
-    background: rgba(59, 125, 232, .08);
-}
-
-[data-theme="dark"] tbody tr.row-selected {
-    background: rgba(91, 156, 246, .1);
-}
-
 .copy-btn {
     background: none;
     border: none;
@@ -576,20 +598,23 @@ tbody tr.row-selected {
     color: var(--green);
 }
 
-.btn-outline-accent {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
 }
 
-.btn-outline-accent:hover {
-    background: var(--accent);
-    color: var(--grey-100);
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: 3px;
 }
 
 footer {
     flex-shrink: 0;
-    height: 36px;
+    height: var(--footer-h);
     background: var(--surface);
     border-top: 1px solid var(--border);
     display: grid;
@@ -723,7 +748,7 @@ footer {
     bottom: 32px;
     right: 18px;
     background: var(--green);
-    color: var(--grey-100);
+    color: var(--gray-100);
     font-size: .78rem;
     font-weight: 700;
     padding: 7px 14px;
