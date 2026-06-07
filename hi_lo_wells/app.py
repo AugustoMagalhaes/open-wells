@@ -1,6 +1,7 @@
 import os
 import socket
 from datetime import datetime
+from pathlib import Path
 
 from flask import Flask, Response, jsonify, render_template, request, session
 
@@ -121,9 +122,7 @@ def open_file_dialog():
 
 @app.route("/save-file-dialog")
 def save_file_dialog():
-    return jsonify(
-        {"dir": load_prefs().get("last_download_dir", str(Path.home() / "Downloads"))}
-    )
+    return jsonify({"dir": load_prefs().get("last_download_dir", str(Path.home() / "Downloads"))})
 
 
 @app.route("/read-file", methods=["POST"])
