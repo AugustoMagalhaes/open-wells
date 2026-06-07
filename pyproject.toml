@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff>=0.4"]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff==0.15.16"]
 
 [project.scripts]
 hi-lo-wells = "hi_lo_wells.qt_app:main"
