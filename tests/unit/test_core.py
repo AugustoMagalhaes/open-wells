@@ -224,22 +224,6 @@ def test_run_matching_more_injectors_than_producers():
     assert all_producers == {"P-01"}
 
 
-# def test_run_matching_producer_with_no_available_injector():
-#     df = make_df(
-#         [
-#             ["P-01", 1000, 2000, 0, 900],
-#             ["P-02", 5000, 5000, 0, 800],
-#             ["P-03", 9000, 9000, 0, 700],
-#             ["I-01", 1100, 2100, 0, -200],
-#         ]
-#     )
-#     result, err = run_matching(df)
-#     assert err == ""
-#     assert ["P-01", "I-01"] in result
-#     assert ["P-02", "-"] in result
-#     assert ["P-03", "-"] in result
-
-
 def test_run_matching_producer_no_match_remaining_empty():
     df = make_df(
         [
