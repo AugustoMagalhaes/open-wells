@@ -51,10 +51,10 @@ def run_matching(df: pd.DataFrame) -> tuple[list[list[str]], str]:
             elif len(remaining_injs) == 0:
                 result.append([prod, "-"])
                 break
-            elif idx == len(pairs) - 1 and len(remaining_injs) > 0:
-                extras = [[prod, i] for i in distances[prod] if i in remaining_injs]
-                result = [*result, *extras]
-                break
+
+        if idx == len(pairs) - 1 and len(remaining_injs) > 0:
+            extras = [[prod, i] for i in inj_distances if i in remaining_injs]
+            result = [*result, *extras]
 
     return result, ""
 

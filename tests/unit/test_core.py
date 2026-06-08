@@ -159,3 +159,96 @@ def test_rows_to_df_invalid_numeric():
     rows = [["P-01", "abc", "2000", "0", "500"]]
     df = rows_to_df(rows, thousands="", decimal=".")
     assert df.iloc[0]["X"] == 0.0
+
+
+def test_run_matching_more_producers_than_injectors():
+    df = make_df(
+        [
+            ["P-01", 1000, 2000, 0, 900],
+            ["P-02", 5000, 5000, 0, 800],
+            ["P-03", 9000, 2000, 0, 700],
+            ["I-01", 1100, 2100, 0, -200],
+        ]
+    )
+    result, err = run_matching(df)
+    assert err == ""
+    assert ["P-01", "I-01"] in result
+    assert any(r[1] == "-" for r in result)
+
+
+def test_run_matching_last_producer_gets_closest_remaining_injector():
+    df = make_df(
+        [
+            ["P-01", 1000, 2000, 0, 900],
+            ["P-02", 9000, 9000, 0, 100],
+            ["I-01", 1100, 2100, 0, -200],
+            ["I-02", 9100, 9100, 0, -150],
+            ["I-03", 9200, 9200, 0, -100],
+        ]
+    )
+    result, err = run_matching(df)
+    assert err == ""
+    assert ["P-01", "I-01"] in result
+    assert ["P-02", "I-02"] in result
+
+
+def test_parse_csv_content_empty_file():
+    with pytest.raises(ValueError, match="Empty file"):
+        parse_csv_content("", sep=",")
+
+
+def test_parse_csv_content_skips_empty_rows():
+    df = parse_csv_content(
+        "WELL,X,Y,Z,WEI\nP-01,1000,2000,0,500\n\n\n",
+        sep=",",
+    )
+
+    assert len(df) == 1
+
+
+def test_run_matching_more_injectors_than_producers():
+    df = make_df(
+        [
+            ["P-01", 1000, 2000, 0, 900],
+            ["I-01", 1100, 2100, 0, -200],
+            ["I-02", 1200, 2200, 0, -150],
+            ["I-03", 1300, 2300, 0, -100],
+        ]
+    )
+    result, err = run_matching(df)
+    assert err == ""
+    assert result[0][0] == "P-01"
+    assert result[0][1] == "I-01"
+    assert len(result) >= 2
+    all_producers = {r[0] for r in result}
+    assert all_producers == {"P-01"}
+
+
+# def test_run_matching_producer_with_no_available_injector():
+#     df = make_df(
+#         [
+#             ["P-01", 1000, 2000, 0, 900],
+#             ["P-02", 5000, 5000, 0, 800],
+#             ["P-03", 9000, 9000, 0, 700],
+#             ["I-01", 1100, 2100, 0, -200],
+#         ]
+#     )
+#     result, err = run_matching(df)
+#     assert err == ""
+#     assert ["P-01", "I-01"] in result
+#     assert ["P-02", "-"] in result
+#     assert ["P-03", "-"] in result
+
+
+def test_run_matching_producer_no_match_remaining_empty():
+    df = make_df(
+        [
+            ["P-01", 1000, 2000, 0, 900],
+            ["P-02", 5000, 5000, 0, 800],
+            ["I-01", 1100, 2100, 0, -200],
+        ]
+    )
+    result, err = run_matching(df)
+    assert err == ""
+    assert ["P-01", "I-01"] in result
+    assert ["P-02", "-"] in result
