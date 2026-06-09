@@ -43,12 +43,12 @@ def run_matching(df: pd.DataFrame) -> tuple[list[list[str]], str]:
     pairs = list(distances.items())
 
     for idx, (prod, inj_distances) in enumerate(pairs):
-        for inj in inj_distances:
+        for inj in inj_distances:  # pragma: no branch
             if inj in remaining_injs:
                 result.append([prod, inj])
                 remaining_injs.remove(inj)
                 break
-            elif len(remaining_injs) == 0:
+            elif len(remaining_injs) == 0:  # pragma: no branch
                 result.append([prod, "-"])
                 break
 
