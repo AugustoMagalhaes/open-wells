@@ -5,7 +5,7 @@
 {% if result is defined and result %}
 <div class="result-card on" id="result-data" data-result='{{ result | tojson }}'>
     <div class="result-header">
-        <span>Matching result</span>
+        <span>Evaluation</span>
         <div style="display:flex; align-items:center; gap:8px;">
             <span class="result-count">{{ result|length }} pair(s)</span>
             <button class="copy-btn" onclick="copyResult()" title="Copy to clipboard">
