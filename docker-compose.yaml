@@ -4,6 +4,6 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./hi_lo_wells:/app/hi_lo_wells
+      - ./open_wells:/app/open_wells
     environment:
-      HI_LO_WELLS_NO_BROWSER: "1"
+      OPEN_WELLS_NO_BROWSER: "1"

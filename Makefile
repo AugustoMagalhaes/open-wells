@@ -27,10 +27,10 @@ shell:
 	$(COMPOSE) run --rm app bash
 
 lint:
-	$(COMPOSE) run --rm app ruff check hi_lo_wells/
+	$(COMPOSE) run --rm app ruff check open_wells/
 
 format:
-	$(COMPOSE) run --rm app ruff format hi_lo_wells/
+	$(COMPOSE) run --rm app ruff format open_wells/
 
 test:
 	$(COMPOSE) run --rm app pytest tests/ -v
