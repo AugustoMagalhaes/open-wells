@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from hi_lo_wells.core import parse_csv_content, result_to_csv, rows_to_df, run_matching
+from open_wells.core import parse_csv_content, result_to_csv, rows_to_df, run_matching
 
 FIXTURES = "tests/fixtures"
 

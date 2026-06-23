@@ -429,9 +429,8 @@ document.getElementById("import-csv").addEventListener("change", function () {
     document.getElementById("tbody").innerHTML = "";
     updateRowCount();
     syncImportMeta();
-
     setTimeout(() => {
-        document.getElementById("import-form").dispatchEvent(new Event("submit"));
+        htmx.trigger("#import-form", "submit");
         this.value = "";
     }, 50);
 });

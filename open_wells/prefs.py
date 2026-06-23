@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 
-PREFS_FILE = Path.home() / ".config" / "hi-lo-wells" / "prefs.json"
+PREFS_FILE = Path.home() / ".config" / "open-wells" / "prefs.json"
 
-DEFAULTS = {
+DEFAULTS: dict[str, str] = {
     "decimal": ".",
     "thousands": "",
     "csvsep": ",",
@@ -13,14 +13,14 @@ DEFAULTS = {
 }
 
 
-def load() -> dict:
+def load() -> dict[str, str]:
     try:
         return {**DEFAULTS, **json.loads(PREFS_FILE.read_text())}
     except Exception:
         return DEFAULTS.copy()
 
 
-def save(data: dict) -> None:
+def save(data: dict[str, str]) -> None:
     PREFS_FILE.parent.mkdir(parents=True, exist_ok=True)
     current = load()
     current.update(data)

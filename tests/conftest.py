@@ -1,6 +1,6 @@
 import pytest
 
-from hi_lo_wells.app import app as flask_app
+from open_wells.app import app as flask_app
 
 
 @pytest.fixture

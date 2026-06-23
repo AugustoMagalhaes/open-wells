@@ -5,12 +5,12 @@ from pathlib import Path
 
 from flask import Flask, Response, jsonify, render_template, request, session
 
-from hi_lo_wells.core import parse_csv_content, result_to_csv, rows_to_df, run_matching
-from hi_lo_wells.prefs import load as load_prefs
-from hi_lo_wells.prefs import save as save_prefs
+from open_wells.core import parse_csv_content, result_to_csv, rows_to_df, run_matching
+from open_wells.prefs import load as load_prefs
+from open_wells.prefs import save as save_prefs
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "hi-lo-wells-dev")
+app.secret_key = os.environ.get("SECRET_KEY", "open-wells-dev")
 
 COLS = ["WELL", "X", "Y", "Z", "WEI"]
 DEFAULT_ROWS = 1
@@ -150,7 +150,7 @@ def _find_free_port(start: int = 5000) -> int:
 
 def main() -> None:  # pragma: no cover
     port = _find_free_port()
-    print(f"  hi-lo-wells  →  http://127.0.0.1:{port}")
+    print(f"  OpenWells  →  http://127.0.0.1:{port}")
     app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
 
 

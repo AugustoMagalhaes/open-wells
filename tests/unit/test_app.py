@@ -1,7 +1,7 @@
 import socket
 from unittest.mock import patch
 
-from hi_lo_wells.app import _find_free_port
+from open_wells.app import _find_free_port
 
 
 def test_find_free_port_returns_5000_when_available():
@@ -43,7 +43,7 @@ def test_find_free_port_increments_until_free():
         def getsockname(self):
             return ("", 5002)
 
-    with patch("hi_lo_wells.app.socket.socket", MockSocket):
+    with patch("open_wells.app.socket.socket", MockSocket):
         port = _find_free_port(start=5000)
         assert port == 5002
         assert call_count == 3

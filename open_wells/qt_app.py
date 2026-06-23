@@ -9,9 +9,9 @@ from PyQt6.QtWebEngineCore import QWebEngineDownloadRequest, QWebEnginePage
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMainWindow
 
-from hi_lo_wells.app import _find_free_port, app
-from hi_lo_wells.prefs import load as load_prefs
-from hi_lo_wells.prefs import save as save_prefs
+from open_wells.app import _find_free_port, app
+from open_wells.prefs import load as load_prefs
+from open_wells.prefs import save as save_prefs
 
 
 class WebPage(QWebEnginePage):
@@ -90,7 +90,7 @@ def main():
     qt_app = QApplication(sys.argv)
 
     window = QMainWindow()
-    window.setWindowTitle("hi-lo-wells")
+    window.setWindowTitle("OpenWells")
 
     view = QWebEngineView()
     page = WebPage(view.page().profile(), view, window)

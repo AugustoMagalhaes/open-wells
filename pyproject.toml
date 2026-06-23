@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "hi-lo-wells"
+name = "open-wells"
 version = "0.1.0"
-description = "Hi-Lo-Wells"
+description = "Wells' Opening Schedule Tool"
 requires-python = ">=3.12"
 dependencies = [
     "flask>=3.0",
@@ -19,22 +19,22 @@ dependencies = [
 dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff==0.15.16"]
 
 [project.scripts]
-hi-lo-wells = "hi_lo_wells.qt_app:main"
+open-wells = "open_wells.qt_app:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["hi_lo_wells*"]
+include = ["open_wells*"]
 
 [tool.setuptools.package-data]
-hi_lo_wells = ["templates/*", "static/*"]
+open_wells = ["templates/*", "static/*"]
 
 [tool.pytest.ini_options]
-addopts = "--cov=hi_lo_wells --cov-branch --cov-report=term-missing --cov-report=html"
+addopts = "--cov=open_wells --cov-branch --cov-report=term-missing --cov-report=html"
 
 testpaths = ["tests"]
 [tool.coverage.run]
-source = ["hi_lo_wells"]
-omit = ["hi_lo_wells/qt_app.py"]
+source = ["open_wells"]
+omit = ["open_wells/qt_app.py"]
 
 [tool.coverage.report]
 exclude_lines = ["if __name__ == .__main__.:", "pragma: no cover"]
