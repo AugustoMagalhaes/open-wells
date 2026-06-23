@@ -7,3 +7,4 @@ services:
       - ./open_wells:/app/open_wells
     environment:
       OPEN_WELLS_NO_BROWSER: "1"
+    command: python -c "from open_wells.app import app; app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)"

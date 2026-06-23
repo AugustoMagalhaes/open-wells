@@ -33,7 +33,7 @@ format:
 	$(COMPOSE) run --rm app ruff format open_wells/
 
 test:
-	$(COMPOSE) run --rm app pytest tests/ -v
+	$(COMPOSE) run --rm -v $(PWD)/tests:/app/tests app pytest tests/ -v
 
 dist:
 	$(COMPOSE) run --rm app python -m build
