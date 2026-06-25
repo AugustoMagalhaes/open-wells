@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "open-wells"
 version = "0.1.0"
-description = "Wells' Opening Schedule Tool"
-readme = { file = "README.md", content-type = "text/markdown" }
+description = "Desktop tool for producer–injector well matching based on economic index and 3D distance, implementing the fast opening schedule procedure by Diniz et al."
+readme = { file = "README_pypi.md", content-type = "text/markdown" }
 requires-python = ">=3.12"
 dependencies = [
     "flask>=3.0",
@@ -14,6 +14,7 @@ dependencies = [
     "numpy>=1.24",
     "PyQt6>=6.6",
     "PyQt6-WebEngine>=6.6",
+    "build>=1.5.0",
 ]
 
 [project.optional-dependencies]
@@ -27,7 +28,7 @@ where = ["."]
 include = ["open_wells*"]
 
 [tool.setuptools.package-data]
-open_wells = ["templates/*", "static/*"]
+open_wells = ["templates/**/*", "static/*"]
 
 [tool.pytest.ini_options]
 addopts = "--cov=open_wells --cov-branch --cov-report=term-missing --cov-report=html"
