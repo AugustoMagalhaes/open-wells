@@ -90,7 +90,7 @@ def main():
     qt_app = QApplication(sys.argv)
 
     window = QMainWindow()
-    window.setWindowTitle("OpenWells")
+    window.setWindowTitle("OmniWells")
 
     view = QWebEngineView()
     page = WebPage(view.page().profile(), view, window)

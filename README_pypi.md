@@ -1,6 +1,6 @@
-# OpenWells
+# OmniWells
 
-![OpenWells logo](https://raw.githubusercontent.com/AugustoMagalhaes/omni-wells/main/docs/logo.svg)
+![OmniWells logo](https://raw.githubusercontent.com/AugustoMagalhaes/omni-wells/main/docs/logo.svg)
 
 *Wells' Opening Schedule Tool*
 
@@ -14,14 +14,14 @@
 
 ## Background
 
-OpenWells implements the fast well opening schedule procedure proposed by Diniz et al. (2024) ([doi:10.1016/j.geoen.2024.213179](https://doi.org/10.1016/j.geoen.2024.213179)) and updated by Diniz et al. (2026) ([doi:10.1007/s40430-025-06230-4](https://doi.org/10.1007/s40430-025-06230-4)).
+OmniWells implements the fast well opening schedule procedure proposed by Diniz et al. (2024) ([doi:10.1016/j.geoen.2024.213179](https://doi.org/10.1016/j.geoen.2024.213179)) and updated by Diniz et al. (2026) ([doi:10.1007/s40430-025-06230-4](https://doi.org/10.1007/s40430-025-06230-4)).
 
 The procedure addresses a common challenge in reservoir management: defining the optimal sequence in which producer and injector wells should be opened to improve field recovery. Rather than solving a complex combinatorial optimization problem, the method uses a fast heuristic based on two criteria:
 
 - **Economic index (PWEI / IWEI)**: producers are prioritized in descending order of their economic index, ensuring the most profitable wells are opened first.
 - **3D Cartesian distance**: for each prioritized producer, the nearest unassigned injector (by Euclidean distance between wellheads) is assigned, establishing the producer–injector pairs.
 
-The user provides a list of wells with their wellhead Cartesian coordinates (X, Y, Z) and the economic index for each well, with sign convention: **positive for producers (PWEI)**, **negative for injectors (IWEI)**. OpenWells then generates the ordered sequence of producer–injector pairs, which can be used to evaluate well relationships and define the opening schedule significantly faster than full optimization approaches.
+The user provides a list of wells with their wellhead Cartesian coordinates (X, Y, Z) and the economic index for each well, with sign convention: **positive for producers (PWEI)**, **negative for injectors (IWEI)**. OmniWells then generates the ordered sequence of producer–injector pairs, which can be used to evaluate well relationships and define the opening schedule significantly faster than full optimization approaches.
 
 ---
 
@@ -55,7 +55,7 @@ The user provides a list of wells with their wellhead Cartesian coordinates (X, 
 
 ### Installation
 
-Install OpenWells using your preferred package manager. After installation, launch the application by running `omni-wells`.
+Install OmniWells using your preferred package manager. After installation, launch the application by running `omni-wells`.
 
 **pipx** *(recommended for most users; installs the application in an isolated environment)*
 ```bash
@@ -97,7 +97,7 @@ There are three ways to load your data:
 
 **Manual input**: click any cell in the table and type directly. Navigate with arrow keys or Enter to move between cells. Click **add row** to add new rows if needed.
 
-**Paste from Excel or any spreadsheet**: select a cell in the table, copy your data from Excel (including the header row), and press `Ctrl+V`. OpenWells detects the header and delimiter automatically and fills the table.
+**Paste from Excel or any spreadsheet**: select a cell in the table, copy your data from Excel (including the header row), and press `Ctrl+V`. OmniWells detects the header and delimiter automatically and fills the table.
 
 **Import a CSV file**: click **📂 Open CSV file**. Before importing, configure the separators to match your file format (see below).
 
