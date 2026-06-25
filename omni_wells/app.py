@@ -3,7 +3,7 @@ import socket
 from datetime import datetime
 from pathlib import Path
 
-from flask import Flask, Response, jsonify, render_template, request, session
+from flask import Flask, Response, jsonify, render_template, request, send_from_directory, session
 
 from omni_wells.core import parse_csv_content, result_to_csv, rows_to_df, run_matching
 from omni_wells.prefs import load as load_prefs
@@ -146,6 +146,11 @@ def _find_free_port(start: int = 5000) -> int:
                 return port
             except OSError:
                 port += 1
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(app.static_folder, "logo.svg", mimetype="image/svg+xml")
 
 
 def main() -> None:  # pragma: no cover

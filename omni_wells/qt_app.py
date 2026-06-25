@@ -5,6 +5,7 @@ import webbrowser
 from pathlib import Path
 
 from PyQt6.QtCore import QUrl
+from PyQt6.QtGui import QIcon
 from PyQt6.QtWebEngineCore import QWebEngineDownloadRequest, QWebEnginePage
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMainWindow
@@ -101,6 +102,8 @@ def main():
 
     view.setUrl(QUrl(f"http://127.0.0.1:{port}"))
     window.setCentralWidget(view)
+    icon_path = Path(__file__).parent / "static" / "logo.svg"
+    window.setWindowIcon(QIcon(str(icon_path)))
     window.show()
     window.showMaximized()
 
