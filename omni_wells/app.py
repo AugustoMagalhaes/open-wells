@@ -5,12 +5,12 @@ from pathlib import Path
 
 from flask import Flask, Response, jsonify, render_template, request, session
 
-from open_wells.core import parse_csv_content, result_to_csv, rows_to_df, run_matching
-from open_wells.prefs import load as load_prefs
-from open_wells.prefs import save as save_prefs
+from omni_wells.core import parse_csv_content, result_to_csv, rows_to_df, run_matching
+from omni_wells.prefs import load as load_prefs
+from omni_wells.prefs import save as save_prefs
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "open-wells-dev")
+app.secret_key = os.environ.get("SECRET_KEY", "omni-wells-dev")
 
 COLS = ["WELL", "X", "Y", "Z", "WEI"]
 DEFAULT_ROWS = 1

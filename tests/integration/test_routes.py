@@ -4,7 +4,7 @@ import io
 def test_index(client):
     res = client.get("/")
     assert res.status_code == 200
-    assert b"open-wells" in res.data
+    assert b"omni-wells" in res.data
 
 
 def test_calculate_basic(client):
@@ -171,7 +171,7 @@ def test_get_prefs(client):
 
 
 def test_set_prefs(client, tmp_path, monkeypatch):
-    import open_wells.prefs as prefs_module
+    import omni_wells.prefs as prefs_module
 
     prefs_file = tmp_path / "prefs.json"
     monkeypatch.setattr(prefs_module, "PREFS_FILE", prefs_file)
@@ -216,7 +216,7 @@ def test_read_file_not_found(client):
 
 
 def test_calculate_exception(client, monkeypatch):
-    import open_wells.app as app_module
+    import omni_wells.app as app_module
 
     monkeypatch.setattr(
         app_module, "rows_to_df", lambda *a, **kw: (_ for _ in ()).throw(RuntimeError("unexpected"))

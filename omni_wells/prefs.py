@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-PREFS_FILE = Path.home() / ".config" / "open-wells" / "prefs.json"
+PREFS_FILE = Path.home() / ".config" / "omni-wells" / "prefs.json"
 
 DEFAULTS: dict[str, str] = {
     "decimal": ".",

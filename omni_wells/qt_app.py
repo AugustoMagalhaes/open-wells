@@ -9,9 +9,9 @@ from PyQt6.QtWebEngineCore import QWebEngineDownloadRequest, QWebEnginePage
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWidgets import QApplication, QFileDialog, QMainWindow
 
-from open_wells.app import _find_free_port, app
-from open_wells.prefs import load as load_prefs
-from open_wells.prefs import save as save_prefs
+from omni_wells.app import _find_free_port, app
+from omni_wells.prefs import load as load_prefs
+from omni_wells.prefs import save as save_prefs
 
 
 class WebPage(QWebEnginePage):

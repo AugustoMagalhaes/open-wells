@@ -20,8 +20,8 @@ jobs:
 
       - run: pip install ruff
 
-      - run: ruff check open_wells/
-      - run: ruff format --check open_wells/
+      - run: ruff check omni_wells/
+      - run: ruff format --check omni_wells/
 
   test:
     runs-on: ubuntu-latest
@@ -34,7 +34,7 @@ jobs:
 
       - run: pip install -e ".[dev]"
 
-      - run: pytest --cov=open_wells --cov-branch --cov-report=xml
+      - run: pytest --cov=omni_wells --cov-branch --cov-report=xml
 
       - uses: codecov/codecov-action@v4
         with:

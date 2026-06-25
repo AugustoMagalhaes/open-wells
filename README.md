@@ -6,8 +6,8 @@
 </p>
 
 ![Python](https://img.shields.io/badge/python-3.12+-blue?logo=python)
-[![codecov](https://codecov.io/github/AugustoMagalhaes/open-wells/graph/badge.svg?token=KR4BMAM5WX)](https://codecov.io/github/AugustoMagalhaes/open-wells)
-![CI](https://github.com/AugustoMagalhaes/open-wells/actions/workflows/ci.yaml/badge.svg)
+[![codecov](https://codecov.io/github/AugustoMagalhaes/omni-wells/graph/badge.svg?token=KR4BMAM5WX)](https://codecov.io/github/AugustoMagalhaes/omni-wells)
+![CI](https://github.com/AugustoMagalhaes/omni-wells/actions/workflows/ci.yaml/badge.svg)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 
@@ -56,24 +56,24 @@ The user provides a list of wells with their wellhead Cartesian coordinates (X, 
 
 ### Installation
 
-Install OpenWells using your preferred package manager. After installation, launch the application by running `open-wells`.
+Install OpenWells using your preferred package manager. After installation, launch the application by running `omni-wells`.
 
 **pipx** *(recommended for most users; installs the application in an isolated environment)*
 ```bash
-pipx install open-wells
-open-wells
+pipx install omni-wells
+omni-wells
 ```
 
 **pip**
 ```bash
-pip install open-wells
-open-wells
+pip install omni-wells
+omni-wells
 ```
 
 **uv**
 ```bash
-uv tool install open-wells
-open-wells
+uv tool install omni-wells
+omni-wells
 ```
 
 A native desktop window opens automatically and no browser configuration is needed. The interface is built with **PyQt6 + WebEngine**, serving a **Flask** application internally. This means the UI runs as a web app inside a desktop window, combining the flexibility of web technologies with the convenience of a native application.
@@ -152,8 +152,8 @@ Click **☾ Dark** / **☀ Light** in the top-right corner to toggle the theme. 
 Only Docker and Make are required — no local Python installation needed.
 
 ```bash
-git clone https://github.com/AugustoMagalhaes/open-wells.git
-cd open-wells
+git clone https://github.com/AugustoMagalhaes/omni-wells.git
+cd omni-wells
 make build
 make up
 ```

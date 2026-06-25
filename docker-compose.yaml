@@ -4,7 +4,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./open_wells:/app/open_wells
+      - ./omni_wells:/app/omni_wells
     environment:
-      OPEN_WELLS_NO_BROWSER: "1"
-    command: python -c "from open_wells.app import app; app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)"
+      OMNI_WELLS_NO_BROWSER: "1"
+    command: python -c "from omni_wells.app import app; app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)"
