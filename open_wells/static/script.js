@@ -427,6 +427,8 @@ function showToast(msg) {
 
 document.getElementById("import-csv").addEventListener("change", function () {
     document.getElementById("tbody").innerHTML = "";
+    document.getElementById("result-area").innerHTML = "";
+    document.getElementById("dl-btn").style.display = "none";
     updateRowCount();
     syncImportMeta();
     setTimeout(() => {
